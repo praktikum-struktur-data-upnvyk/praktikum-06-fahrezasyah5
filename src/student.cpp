@@ -13,19 +13,19 @@ using namespace std;
 // -----------------------------------------------------------------------------
 // DAFTAR PEKERJAAN DAN BOBOTNYA
 // -----------------------------------------------------------------------------
-//     Soal 1  enqueue    dokumen baru berdiri paling belakang     35 poin
-//     Soal 2  dequeue     printer mengambil dokumen terdepan      40 poin
-//     Soal 3  clear       tombol Batalkan Semua                   25 poin
-//                                                                ---------
-//                                                                100 poin
+//    Soal 1  enqueue    dokumen baru berdiri paling belakang     35 poin
+//    Soal 2  dequeue    printer mengambil dokumen terdepan       40 poin
+//    Soal 3  clear      tombol Batalkan Semua                    25 poin
+//                                                               ---------
+//                                                              100 poin
 //
 // -----------------------------------------------------------------------------
 // SUDAH DISEDIAKAN — TIDAK DINILAI
 // -----------------------------------------------------------------------------
-//   inisialisasi   menyiapkan antrean baru menjadi kosong
-//   isEmpty        apakah antrean sedang kosong
-//   front          melihat dokumen terdepan tanpa mengeluarkannya
-//   display        membaca seluruh isi antrean menjadi satu baris teks
+//  inisialisasi   menyiapkan antrean baru menjadi kosong
+//  isEmpty        apakah antrean sedang kosong
+//  front          melihat dokumen terdepan tanpa mengeluarkannya
+//  display        membaca seluruh isi antrean menjadi satu baris teks
 //
 // Keempatnya sudah ditulis lengkap di bagian bawah file ini. Pakai `display`
 // sesering mungkin untuk memeriksa hasil kerja Anda sendiri.
@@ -69,26 +69,62 @@ string display(const Queue& q) {
 // =============================================================================
 
 // =============================================================================
-// SOAL 1 — enqueue()                                                  35 poin
+// SOAL 1 — enqueue()                                                 35 poin
 // =============================================================================
 bool enqueue(Queue& q, int nomor) {
-    // TODO: kerjakan di sini
-    return false;
+    Node* newNode = new Node();
+    if (newNode == NULL) return false;
+    
+    newNode->data = nomor;
+    newNode->next = NULL;
+    
+    if (isEmpty(q)) {
+        q.depan = newNode;
+        q.belakang = newNode;
+    } else {
+        q.belakang->next = newNode;
+        q.belakang = newNode;
+    }
+    
+    return true;
 }
 
 // =============================================================================
-// SOAL 2 — dequeue()                                                  40 poin
+// SOAL 2 — dequeue()                                                 40 poin
 // =============================================================================
 bool dequeue(Queue& q, int& nomor) {
-    // TODO: kerjakan di sini
-    return false;
+    if (isEmpty(q)) {
+        return false;
+    }
+    
+    Node* temp = q.depan;
+    nomor = temp->data;
+    
+    q.depan = q.depan->next;
+    
+    if (q.depan == NULL) {
+        q.belakang = NULL;
+    }
+    
+    delete temp;
+    
+    return true;
 }
 
 // =============================================================================
-// SOAL 3 — clear()                                                    25 poin
+// SOAL 3 — clear()                                                   25 poin
 // =============================================================================
 void clear(Queue& q) {
-    // TODO: kerjakan di sini
+    Node* current = q.depan;
+    
+    while (current != NULL) {
+        Node* nextNode = current->next;
+        delete current;
+        current = nextNode;
+    }
+    
+    q.depan = NULL;
+    q.belakang = NULL;
 }
 
 // =============================================================================
